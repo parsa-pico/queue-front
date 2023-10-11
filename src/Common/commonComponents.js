@@ -1,5 +1,6 @@
-import React from "react";
-
+import React, { useState } from "react";
+import { Tooltip } from "react-bootstrap";
+import { NoCallBackErr } from "../socket";
 export function RadioButton({ id, name, label, error, ...rest }) {
   return (
     <div className="form-check">
@@ -57,4 +58,35 @@ export function Input({
       )}
     </span>
   );
+}
+
+export const ClickButton = ({ onClick, children, ...rest }) => {
+  const [isDisabled, setIsDisabled] = useState(false);
+
+  const handleClick = async () => {
+    setIsDisabled(true);
+
+    try {
+      await onClick();
+    } catch (e) {
+      if (e instanceof NoCallBackErr) return;
+      if (e && e.response) {
+        const expectedError =
+          e.response && e.response.status >= 400 && e.response.status < 500;
+
+        if (expectedError) alert(e.response.data);
+      } else alert(e.message);
+    } finally {
+      setIsDisabled(false);
+    }
+  };
+
+  return (
+    <button onClick={handleClick} disabled={isDisabled} {...rest}>
+      {children}
+    </button>
+  );
+};
+export function simpleToolTip(id, text) {
+  return <Tooltip id={id}>{text}</Tooltip>;
 }

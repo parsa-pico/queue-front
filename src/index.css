@@ -19,14 +19,29 @@ code {
 }
 .App {
   text-align: center;
-  padding-top: 3rem;
+  padding-top: 5rem;
+}
+@media screen and (min-width: 768px) {
+  .App {
+    margin: auto 33vw;
+  }
 }
 * {
   font-family: "IBM Plex Sans Arabic", sans-serif;
 }
-
-.persian-calendar {
+.clickable {
+  cursor: pointer;
+  color: blue;
+  transition: all 0.2s;
 }
+.clickable:hover {
+  color: red;
+}
+
+.custom-row-gap > * {
+  margin-bottom: 1rem;
+}
+
 .calendar-body {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -97,11 +112,19 @@ code {
 }
 .time-input {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   margin: 1rem 3rem;
+}
+.time-hm {
+  width: 3ch;
+  padding: 0;
+  text-align: center;
 }
 .time-check {
   direction: rtl;
+}
+#current-date {
+  position: relative;
 }
 .mobile-menu {
   direction: rtl;
@@ -117,13 +140,23 @@ code {
 
 .open {
   transform: translateY(0);
+  box-shadow: 0px 0px 10px rgb(158, 158, 158);
 }
-
+.mobile-menu > .menu-button {
+  transform: translateY(0);
+  transition: none;
+}
 .menu-button {
   cursor: pointer;
   position: fixed;
-  top: 10px; /* Adjust as needed */
-  right: 20px; /* Adjust as needed */
+  top: 10px;
+  right: 20px;
+}
+.menu-name {
+  cursor: pointer;
+  position: fixed;
+  top: 10px;
+  left: 20px;
 }
 
 .bar {
@@ -170,4 +203,46 @@ code {
   /* display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.5rem; */
+}
+
+.roomIsWroking {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+  flex-direction: row;
+}
+.help-icon {
+  max-width: 10px;
+  max-height: 10px;
+  filter: grayscale();
+}
+.help-icon:hover {
+  filter: none;
+}
+
+/* form maker */
+.form-maker-item {
+  border: 1px solid rgb(187, 187, 187);
+  border-radius: 5px;
+  padding: 1rem;
+}
+.flex-row {
+  display: flex;
+  justify-content: center;
+
+  flex-direction: row;
+}
+
+/* get form admin */
+.get-form-options {
+  display: flex;
+  justify-content: start;
+
+  flex-direction: row;
+}
+.signup-checkbox .form-check-input {
+  width: 1.5rem;
+  height: 1.5rem;
+
+  margin-right: 1rem;
 }

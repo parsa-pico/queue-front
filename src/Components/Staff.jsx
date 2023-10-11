@@ -6,7 +6,7 @@ import { authHeader } from "../Services/authService";
 import { useNavigate } from "react-router-dom";
 import NameSearch from "./NameSearch";
 
-const Users = () => {
+const Staff = () => {
   const [users, setUsers] = useState([{}]);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -24,11 +24,11 @@ const Users = () => {
   };
   function search() {
     tryHTTP(async () => {
-      const { data } = await httpService.get("/admin/users", {
+      const { data } = await httpService.get("/admin/staff", {
         ...authHeader,
         params: { firstName, lastName },
       });
-
+      console.log(data);
       setUsers(data);
     });
   }
@@ -38,14 +38,14 @@ const Users = () => {
 
   return (
     <div>
-      <h1 className="mb-4">کاربران</h1>
+      <h1 className="mb-4">کارمندان</h1>
       <Button
         onClick={() => {
-          nav("/add-student");
+          nav("/add-staff");
         }}
         className="mb-3 ml-auto"
       >
-        کاربر جدید
+        کارمند جدید
       </Button>
       <NameSearch
         fChange={FirstNameChange}
@@ -74,28 +74,25 @@ const Users = () => {
                   <Col>
                     <Button
                       onClick={() => {
-                        nav("/courses", {
-                          state: {
-                            firstName: contact.firstName,
-                            lastName: contact.lastName,
-                          },
+                        nav("/rooms-admin", {
+                          state: contact,
                         });
                       }}
                       variant="warning"
                     >
-                      دوره ها{" "}
+                      اتاق ها{" "}
                     </Button>
                   </Col>
-                  <Col>
+                  {/* <Col>
                     <Button
                       onClick={() => {
                         nav("/add-course", { state: contact });
                       }}
                       variant="success"
                     >
-                      دوره جدید
+                      اتاق جدید
                     </Button>
-                  </Col>
+                  </Col> */}
                 </Row>
               )}
             </ListGroup.Item>
@@ -105,4 +102,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default Staff;

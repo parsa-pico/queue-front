@@ -1,12 +1,14 @@
 import jwtDecode from "jwt-decode";
+// TODO: change this
+const storage = sessionStorage;
 export function getToken() {
-  return localStorage.getItem("token");
+  return storage.getItem("token");
 }
 export function setToken(token) {
-  localStorage.setItem("token", token);
+  storage.setItem("token", token);
 }
 export function clearToken() {
-  localStorage.removeItem("token");
+  storage.removeItem("token");
 }
 export function getDecodedToken() {
   return jwtDecode(getToken());

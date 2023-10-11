@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Row } from "react-bootstrap";
-import { Input } from "./../Common/Inputs";
+import { Input } from "../Common/commonComponents";
 import { Col } from "react-bootstrap";
 
 export default function NameSearch({

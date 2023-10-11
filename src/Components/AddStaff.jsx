@@ -1,28 +1,30 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
-import { tryHTTP } from "./../Common/commonFuncs";
+import { tryHTTP } from "../Common/commonFuncs";
 import httpService from "../Services/httpService";
-import { authHeader } from "./../Services/authService";
+import { authHeader } from "../Services/authService";
 import { useNavigate } from "react-router-dom";
-const AddUserForm = () => {
+const AddStaffForm = () => {
   const nav = useNavigate();
   const baseForm = {
     firstName: "",
     lastName: "",
     phoneNumber: "",
     password: "",
-    studentCode: "",
+    isAdmin: false,
   };
   const [formData, setFormData] = useState(baseForm);
   const [btnDisbled, setBtnDisabled] = useState(false);
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, checked, type } = e.target;
+    let { value } = e.target;
+    if (type === "checkbox") value = checked;
     setFormData({
       ...formData,
       [name]: value,
     });
   };
-
+  console.log(formData);
   const handleSubmit = (e) => {
     e.preventDefault();
     addUser();
@@ -32,9 +34,9 @@ const AddUserForm = () => {
     tryHTTP(
       async () => {
         setBtnDisabled(true);
-        const { data } = await httpService.post("/student/sign-up", formData);
+        await httpService.post("/admin/sign-up", formData, authHeader);
         alert("ثبت نام انجام شد");
-        nav("/login-student");
+        nav("/rooms");
         setFormData(baseForm);
       },
       () => {
@@ -44,12 +46,11 @@ const AddUserForm = () => {
   }
   return (
     <Form className="add-user-form" onSubmit={handleSubmit}>
-      <h1>ثبت نام</h1>
+      <h1>ثبت نام کارمند جدید</h1>
       <Form.Group controlId="firstName">
         <Form.Label>نام</Form.Label>
         <Form.Control
           type="text"
-          //   placeholder="Enter first name"
           name="firstName"
           value={formData.firstName}
           onChange={handleChange}
@@ -61,19 +62,8 @@ const AddUserForm = () => {
         <Form.Label>نام خانوادگی</Form.Label>
         <Form.Control
           type="text"
-          //   placeholder="Enter last name"
           name="lastName"
           value={formData.lastName}
-          onChange={handleChange}
-          required
-        />
-      </Form.Group>
-      <Form.Group controlId="studentCode">
-        <Form.Label>شماره دانشجویی</Form.Label>
-        <Form.Control
-          type="text"
-          name="studentCode"
-          value={formData.studentCode}
           onChange={handleChange}
           required
         />
@@ -83,7 +73,6 @@ const AddUserForm = () => {
         <Form.Label>شماره تلفن</Form.Label>
         <Form.Control
           type="tel"
-          //   placeholder="Enter phone number"
           name="phoneNumber"
           value={formData.phoneNumber}
           onChange={handleChange}
@@ -100,6 +89,15 @@ const AddUserForm = () => {
           required
         />
       </Form.Group>
+      <Form.Check
+        style={{ textAlign: "end" }}
+        type="checkbox"
+        className="mt-2 signup-checkbox"
+        label="دسترسی ادمین"
+        checked={formData.isAdmin}
+        onChange={handleChange}
+        name="isAdmin"
+      />
 
       <Button
         disabled={btnDisbled}
@@ -113,4 +111,4 @@ const AddUserForm = () => {
   );
 };
 
-export default AddUserForm;
+export default AddStaffForm;

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { tryHTTP } from "../Common/commonFuncs";
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
@@ -10,7 +11,7 @@ axios.interceptors.response.use(null, (error) => {
 
   if (!expectedError) {
     console.log(error);
-    alert("An unexpected error occurrred.");
+    alert("خطای غیر منتظره");
   }
   return Promise.reject(error);
 });
